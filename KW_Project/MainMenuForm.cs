@@ -63,7 +63,12 @@ namespace KW_Project
             ProfileEditForm profileeditform = new ProfileEditForm(currentUserId, currentUserGender);
             profileeditform.ShowDialog();
         }
+        private void BtnBoard_Click(object sender, EventArgs e)
+        {
+            Board bd = new Board(currentUserId, currentUserGender);
+            bd.ShowDialog();
 
+        }
         private void MainMenuForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
@@ -156,6 +161,8 @@ namespace KW_Project
         {
 
         }
+
+       
     }
 
 }

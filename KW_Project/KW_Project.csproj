@@ -47,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Board.Designer.cs">
+      <DependentUpon>Board.cs</DependentUpon>
+    </Compile>
+    <Compile Include="btnBoardShare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="btnBoardShare.Designer.cs">
+      <DependentUpon>btnBoardShare.cs</DependentUpon>
+    </Compile>
     <Compile Include="FirstSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +109,12 @@
     <Compile Include="SecondSettingForm.Designer.cs">
       <DependentUpon>SecondSettingForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Board.resx">
+      <DependentUpon>Board.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="btnBoardShare.resx">
+      <DependentUpon>btnBoardShare.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FirstSettingForm.resx">
       <DependentUpon>FirstSettingForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -164,6 +182,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\loadingHeart.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\하트 배경1.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\하트 스티치 배경 1.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\하트파티 배경1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noprofile.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\groups-icon-png-9_jpg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\male-shadow-circle-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instaiconpro.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instafeed.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instaiconchat.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instaiconhome.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instaiconpluspeo.JPG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
