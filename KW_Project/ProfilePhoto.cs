@@ -19,12 +19,14 @@ namespace KW_Project
     {
         private string currentUserId;
         private string currentUserGender;
+        private int genderFlag;
 
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
 
-        public ProfilePhoto(string id)
+        public ProfilePhoto(string id, int gender)
         {
             currentUserId = id;
+            genderFlag = gender;
             InitializeComponent();
         }
 
@@ -64,15 +66,18 @@ namespace KW_Project
     
         private void btnSavetoDB_Click(object sender, EventArgs e)
         {
-            string insertQuery;
-            string readQuery;
+            string insertQuery="";
+            string readQuery="";
             UInt32 fileSize;
             byte[] data;
             FileStream fs;
             MySqlCommand command = new MySqlCommand();
 
             // profile table에 성별 등록
-            readQuery = "SELECT * FROM user_data WHERE id=" + currentUserId;
+            if(genderFlag == 0)
+                readQuery = "SELECT * FROM user_data_m WHERE id=" + currentUserId;
+            else if(genderFlag == 1)
+                readQuery = "SELECT * FROM user_data_f WHERE id=" + currentUserId;
 
             connection.Open();
 
@@ -88,7 +93,10 @@ namespace KW_Project
             //
 
             // 사진 등록
-            insertQuery = "INSERT INTO profile_photo_data VALUES(" + currentUserId + " , "+"@gender,@fileSize,@file)"; 
+            if (genderFlag == 0)
+                insertQuery = "INSERT INTO profile_photo_data_m VALUES(" + currentUserId + " , "+"@gender,@fileSize,@file)";
+            else if (genderFlag == 1)
+                insertQuery = "INSERT INTO profile_photo_data_f VALUES(" + currentUserId + " , " + "@gender,@fileSize,@file)";
 
             try
             {
@@ -142,7 +150,7 @@ namespace KW_Project
         {
             this.Visible = false;
             this.Close();
-            this.DialogResult = DialogResult.No; // form 을 아예 종료
+            this.DialogResult = DialogResult.No; // 로그인 창 전까지 폼 모두 종료
 
             // 로딩 창
             LoadingForm loadingform = new LoadingForm();

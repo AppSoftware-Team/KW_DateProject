@@ -16,11 +16,15 @@ namespace KW_Project
     public partial class FirstSettingForm : Form
     {
         private string currentUserId;
+        private int genderFlag;
+        private bool connectFlag;
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
 
-        public FirstSettingForm(string id)
+        public FirstSettingForm(string id, int gender, bool connectFlag)
         {
             currentUserId = id;
+            genderFlag = gender;
+            this.connectFlag = connectFlag; // 메인에서 접근한 것인지 로딩창에서 접근한 것인지 확인하는 용도
             InitializeComponent();
             SetBtnEvent();
         }
@@ -92,8 +96,11 @@ namespace KW_Project
 
             // 이름, 성별, 학과, 본인어필, 이상형 전송
             string attList = SelectedAttraction(attList1) + SelectedAttraction(attList2);
-
-            string insertQuery = "UPDATE user_data SET name=@name,gender=@gender, department=@department, attraction=@attList WHERE id=@curID;";
+            string insertQuery = null;
+            if(genderFlag == 0)
+                insertQuery = "UPDATE user_data_m SET name=@name, age=@age, gender=@gender, department=@department, attraction=@attList WHERE id=@curID;";
+            else if(genderFlag == 1)
+                insertQuery = "UPDATE user_data_f SET name=@name, age=@age, gender=@gender, department=@department, attraction=@attList WHERE id=@curID;";
 
             connection.Open();
             MySqlCommand command = new MySqlCommand(insertQuery, connection);
@@ -101,7 +108,16 @@ namespace KW_Project
             {
                 command.Parameters.AddWithValue("@curID", currentUserId);
                 command.Parameters.AddWithValue("@name", txtName.Text);
-                command.Parameters.AddWithValue("@gender", cmbSex.SelectedItem.ToString());
+                command.Parameters.AddWithValue("@age", cmbAge.SelectedItem);
+                switch (genderFlag)
+                {
+                    case 0:
+                        command.Parameters.AddWithValue("@gender", "남자");
+                        break;
+                    case 1:
+                        command.Parameters.AddWithValue("@gender", "여자");
+                        break;
+                }
                 command.Parameters.AddWithValue("@department", departmentList.SelectedItem.ToString());
                 command.Parameters.AddWithValue("@attList", attList);
 
@@ -120,21 +136,30 @@ namespace KW_Project
             }
 
             connection.Close();
-            this.Visible = false; // 첫번째 세팅창 받기
-
-            SecondSettingForm settingform = new SecondSettingForm(currentUserId);
-            DialogResult result = settingform.ShowDialog();
-
-            if (result == DialogResult.Cancel)
+            if(connectFlag == false)
             {
-                this.Visible = true;
+                this.Visible = false; // 첫번째 세팅창 닫기
+
+                SecondSettingForm settingform = new SecondSettingForm(currentUserId, genderFlag,false);
+                DialogResult result = settingform.ShowDialog();
+
+                if (result == DialogResult.Cancel)
+                {
+                    this.Visible = true;
+                }
+                else if (result == DialogResult.No)
+                {
+                    this.Close();
+                    this.DialogResult = DialogResult.No;
+                }
             }
-            else if (result == DialogResult.No)
+            else
             {
-                this.Close();
-                this.DialogResult = DialogResult.No;
+                this.DialogResult = DialogResult.Cancel;
             }
+           
         }
+
         private bool IsAttractSelected(Button[] btns1, Button[] btns2)        //성격, 매력 버튼이 각각 3개 선택되었는지 체크
         {
             Color selected = Color.PaleGreen;     //선택되었을때의 색깔
@@ -163,6 +188,7 @@ namespace KW_Project
                 return false;
             }
         }
+
         private string SelectedAttraction(Button[] btns)           // 선택된 버튼들 string으로 반환
         {
             string ret = null;
@@ -175,6 +201,7 @@ namespace KW_Project
             }
             return ret;
         }
+
         private void Btn_Click(object sender, EventArgs e)          //버튼들 공통 이벤트 처리
         {
             Color basic = Color.LightCoral;             //   -- 색 수정시 이부분 수정
