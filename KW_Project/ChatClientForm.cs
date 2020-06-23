@@ -25,7 +25,7 @@ namespace KW_Project
         public bool is_connect = false;
         TcpClient m_Client;
 
-        IdealListForm ideal_form;
+        GotChat ideal_form;
         //loginForm form;
         public ChatClientForm()
         {
@@ -37,10 +37,12 @@ namespace KW_Project
         //    this.id = id;
         //}
 
-        public ChatClientForm(IdealListForm form) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
+        public ChatClientForm(GotChat form) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
         {
             InitializeComponent();
             ideal_form = form;
+
+            Connect();
         }
 
         //public ChatClientForm(loginForm form)
@@ -49,7 +51,7 @@ namespace KW_Project
         //    this.form = form;
         //}
 
-        private void ChatClientForm_FormClosing(object sender, FormClosedEventArgs e)
+        private void ChatClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
 
             Disconnect();

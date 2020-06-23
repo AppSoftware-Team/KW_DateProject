@@ -20,7 +20,7 @@ namespace KW_Project
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
         private string currentUserId;
         private string currentUserGender;
-        private List<string> myIdealList = new List<string>();
+        private List<string> gotChatList = new List<string>();
 
         public GotChat(string myId, string myGender)
         {
@@ -50,7 +50,7 @@ namespace KW_Project
 
 
 
-            GetData(currentUserId); // 나를 좋아요 누른 사람들 ID 불러오기
+            GetData(); // 나를 좋아요 누른 사람들 ID 불러오기
 
             SetData(); // 불러온 ID로 리스트 만들기
         }
@@ -58,7 +58,7 @@ namespace KW_Project
         private void SetData()
         {
 
-            for (int i = 0; i < myIdealList.Count; i++)
+            for (int i = 0; i < gotChatList.Count; i++)
             {
                 object[] dr = new object[6];
                 byte[] Image = null;
@@ -71,9 +71,9 @@ namespace KW_Project
                     //
                     //사진 불러오기
                     if (currentUserGender == "남자")
-                        ReadQuery = "SELECT file from profile_photo_data_f WHERE id=" + myIdealList[i];
+                        ReadQuery = "SELECT file from profile_photo_data_f WHERE id=" + gotChatList[i];
                     else if (currentUserGender == "여자")
-                        ReadQuery = "SELECT file from profile_photo_data_m WHERE id=" + myIdealList[i];
+                        ReadQuery = "SELECT file from profile_photo_data_m WHERE id=" + gotChatList[i];
 
                     connection.Open();
                     MySqlCommand cmd1 = new MySqlCommand(ReadQuery, connection);
@@ -90,9 +90,9 @@ namespace KW_Project
                     //
                     //나머지 정보 불러오기
                     if (currentUserGender == "남자")
-                        ReadQuery = "SELECT * from user_data_f WHERE id=" + myIdealList[i];
+                        ReadQuery = "SELECT * from user_data_f WHERE id=" + gotChatList[i];
                     else if (currentUserGender == "여자")
-                        ReadQuery = "SELECT * from user_data_m WHERE id=" + myIdealList[i];
+                        ReadQuery = "SELECT * from user_data_m WHERE id=" + gotChatList[i];
 
                     connection.Open();
                     MySqlCommand cmd2 = new MySqlCommand(ReadQuery, connection);
@@ -107,8 +107,6 @@ namespace KW_Project
                         // 채팅 버튼
                         dr[3] = new Button();
                         dr[4] = new Button();
-                        //((Button)dr[3]).MouseClick += btnChat_Click;
-                        //((Button)dr[4]).MouseClick += btnDel_Click;
                     }
 
                     table2.Close();
@@ -127,13 +125,13 @@ namespace KW_Project
                 }
                 foreach (DataGridViewRow obj in dataGridView1.Rows)
                 {
-                    obj.Cells[3].Value = "채팅";
-                    obj.Cells[4].Value = "삭제";
+                    obj.Cells[3].Value = "수락";
+                    obj.Cells[4].Value = "거절";
                 }
             }
         }
 
-        private void GetData(string myId)       //mysql에 이상형들이 저장되어있으면 불러오기
+        private void GetData()       //mysql에 나를 좋아요 눌러준 사람이 저장되어있으면 불러오기
         {
             try
             {
@@ -143,9 +141,9 @@ namespace KW_Project
                 string ReadQuery = null;
 
                 if (currentUserGender == "남자")
-                    ReadQuery = "SELECT ideal_id from project_data.user_data_m WHERE id=@curID;";
+                    ReadQuery = "SELECT got_chat_id from project_data.user_data_m WHERE id=@curID;";
                 else if (currentUserGender == "여자")
-                    ReadQuery = "SELECT ideal_id from project_data.user_data_f WHERE id=@curID;";
+                    ReadQuery = "SELECT got_chat_id from project_data.user_data_f WHERE id=@curID;";
 
                 MySqlCommand command = new MySqlCommand(ReadQuery, connection);
                 command.Parameters.AddWithValue("@curID", currentUserId);
@@ -153,11 +151,11 @@ namespace KW_Project
 
                 if (reader.Read())
                 {
-                    string[] mIdeals = (reader["ideal_id"].ToString()).Split('_');
-                    // 이상형 ID들 저장
-                    for (int i = 0; i < mIdeals.Length - 1; i++)
+                    string[] got_chat = (reader["got_chat_id"].ToString()).Split('_');
+                    // 나를 좋아요 누른 사람들 id 저장
+                    for (int i = 0; i < got_chat.Length - 1; i++)
                     {
-                        myIdealList.Add(mIdeals[i]);
+                        gotChatList.Add(got_chat[i]);
                     }
                 }
 
@@ -201,46 +199,46 @@ namespace KW_Project
 
             // selected_ideal 초기화
             if (currentUserGender == "남자")
-                readQuery = "SELECT ideal_id from user_data_m where id=@curId";
+                readQuery = "SELECT got_chat_id from user_data_m where id=@ideal_Id";
             else if (currentUserGender == "여자")
-                readQuery = "SELECT ideal_id from user_data_f where id=@curId";
+                readQuery = "SELECT got_chat_id from user_data_f where id=@ideal_Id";
 
             connection.Open();
 
             command = new MySqlCommand(readQuery, connection);
-            command.Parameters.AddWithValue("@curID", currentUserId);
+            command.Parameters.AddWithValue("@ideal_id", gotChatList[intRow]);
             reader = command.ExecuteReader();
 
             if (reader.Read())
             {
-                old = reader["ideal_id"].ToString();
-                string del_id = myIdealList[intRow];
+                old = reader["got_chat_id"].ToString();
+                string del_id = gotChatList[intRow];
 
                 old.Replace(del_id + "_", "");
-                myIdealList.Remove(del_id);
+                gotChatList.Remove(del_id);
             }
             reader.Close();
             connection.Close();
             dataGridView1.Rows.Remove(dataGridView1.Rows[intRow]);
 
-            string new_ideals = string.Empty;
-            for (int i = 0; i < myIdealList.Count; i++)
+            string new_got_chat = string.Empty;
+            for (int i = 0; i < gotChatList.Count; i++)
             {
-                new_ideals += myIdealList[i] + "_";
+                new_got_chat += gotChatList[i] + "_";
             }
             // ideal_id 다시 저장
             if (currentUserGender == "남자")
-                insertQuery = "UPDATE user_data_m SET ideal_id=@ideal_id WHERE id=@curID;";
+                insertQuery = "UPDATE user_data_f SET got_chat_id=@got_chat_id WHERE id=@ideal_ID;";
             else if (currentUserGender == "여자")
-                insertQuery = "UPDATE user_data_f SET ideal_id=@ideal_id WHERE id=@curID;";
+                insertQuery = "UPDATE user_data_m SET got_chat_id=@got_chat_id WHERE id=@ideal_ID;";
 
             connection.Open();
 
             command = new MySqlCommand(insertQuery, connection);
             try
             {
-                command.Parameters.AddWithValue("@curID", currentUserId);
-                command.Parameters.AddWithValue("@ideal_id", new_ideals);
+                command.Parameters.AddWithValue("@ideal_ID", gotChatList[intRow]);
+                command.Parameters.AddWithValue("@got_chat_id", new_got_chat);
 
                 command.ExecuteNonQuery();
             }
@@ -252,7 +250,8 @@ namespace KW_Project
         }
         private void btn_Chat(int intRow)
         {
-
+            ChatClientForm chat = new ChatClientForm(this);
+            chat.Show();
         }
     }
 }
