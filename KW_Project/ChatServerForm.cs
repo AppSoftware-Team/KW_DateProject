@@ -232,8 +232,6 @@ namespace KW_Project
 
         private void btn_exit_Click(object sender, EventArgs e)
         {
-            ServerStop();
-            Disconnect();
             this.Close();
         }
     }

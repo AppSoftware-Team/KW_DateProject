@@ -455,7 +455,6 @@ namespace KW_Project
          
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("'좋아요'"); // 나중에 지움
                 }
               
             }
@@ -568,7 +567,6 @@ namespace KW_Project
 
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("'Got_Chat등록'"); // 나중에 지움
                 }
 
             }
