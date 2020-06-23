@@ -409,7 +409,7 @@ namespace KW_Project
 
                         reader.Close();
                         connection.Close();
-                        AddToIdeal();
+
                         return;
                     }
                 }
@@ -462,6 +462,7 @@ namespace KW_Project
                     selected_ideal.Add(key,1);
                 }
             }
+            AddToGotChat();
 
             // 다시 매칭 돌린다.
             idealId = MatchingAlgorithm();
@@ -503,7 +504,7 @@ namespace KW_Project
             GotChat gotChatList = new GotChat(currentUserId, currentUserGender);
             gotChatList.ShowDialog();
         }
-        private void AddToIdeal()
+        private void AddToGotChat()
         {
             MySqlDataReader reader;
             MySqlCommand command;
@@ -512,21 +513,21 @@ namespace KW_Project
             string old_got_chat = string.Empty;
 
             if (currentUserGender == "남자")
-                ReadQuery = "SELECT ideal_id from user_data_m where id=@curId";
+                ReadQuery = "SELECT got_chat_id from user_data_f where id=@ideal_Id";
             else if (currentUserGender == "여자")
-                ReadQuery = "SELECT ideal_id from user_data_f where id=@curId";
+                ReadQuery = "SELECT got_chat_id from user_data_m where id=@ideal_Id";
 
             connection.Open();
 
             command = new MySqlCommand(ReadQuery, connection);
-            command.Parameters.AddWithValue("@curID", currentUserId);
+            command.Parameters.AddWithValue("@ideal_ID", idealId);
             reader = command.ExecuteReader();
 
             try
             {
                 if (reader.Read())
                 {
-                    old_got_chat = reader["ideal_id"].ToString(); // 일시적으로 저장
+                    old_got_chat = reader["got_chat_id"].ToString();
                 }
             }
             catch (Exception ex)
@@ -536,23 +537,23 @@ namespace KW_Project
             reader.Close();
             connection.Close();
 
-            // ideal_id 다시 저장
+            // got_chat_id 다시 저장
             if (currentUserGender == "남자")
-                insertQuery = "UPDATE user_data_m SET got_chat_id=@cur_id WHERE id=@ideal_ID;";
-            else if (currentUserGender == "여자")
                 insertQuery = "UPDATE user_data_f SET got_chat_id=@cur_id WHERE id=@ideal_ID;";
+            else if (currentUserGender == "여자")
+                insertQuery = "UPDATE user_data_m SET got_chat_id=@cur_id WHERE id=@ideal_ID;";
 
             connection.Open();
 
             command = new MySqlCommand(insertQuery, connection);
             try
             {
-                command.Parameters.AddWithValue("@curID", currentUserId);
-                command.Parameters.AddWithValue("@ideal_id", old_got_chat + idealId + "_");
+                command.Parameters.AddWithValue("@cur_id", old_got_chat + currentUserId+"_");
+                command.Parameters.AddWithValue("@ideal_id", idealId);
 
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("'좋아요'"); // 나중에 지움
+                    MessageBox.Show("'Got_Chat등록'"); // 나중에 지움
                 }
 
             }
