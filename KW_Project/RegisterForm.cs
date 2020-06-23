@@ -96,12 +96,10 @@ namespace KW_Project
             {
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("이상형 리스트 생성 성공!");      //test
 
                 }
                 else
                 {
-                    MessageBox.Show("이상형 리스트 생성 실패!");
                 }
             }
             catch (Exception ex)

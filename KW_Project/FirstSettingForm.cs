@@ -18,6 +18,8 @@ namespace KW_Project
         private string currentUserId;
         private int genderFlag;
         private bool connectFlag;
+        private Point mousePoint;
+
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
         private const int CS_DROPSHADOW = 0x00020000;
 
@@ -38,6 +40,17 @@ namespace KW_Project
                 return cp;
             }
         }
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
         private void SetBtnEvent()
         {
             button1.Click += Btn_Click;
@@ -133,7 +146,6 @@ namespace KW_Project
 
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("정상 전송"); // 나중에 지움
                 }
                 else
                 {

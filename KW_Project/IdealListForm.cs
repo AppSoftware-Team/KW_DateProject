@@ -109,8 +109,6 @@ namespace KW_Project
                         // 채팅 버튼
                         dr[3] = new Button();
                         dr[4] = new Button();
-                        //((Button)dr[3]).MouseClick += btnChat_Click;
-                        //((Button)dr[4]).MouseClick += btnDel_Click;
                     }
                      
                     table2.Close();
@@ -153,22 +151,6 @@ namespace KW_Project
                 command.Parameters.AddWithValue("@curID", currentUserId);
                 MySqlDataReader reader = command.ExecuteReader();
 
-                /*for (int i = 1; i < 11; i++)
-                {
-                    string col = "ideal" + i + "_id";
-                    if (table.Read()) // 이상형 데이터 읽기
-                    {
-                        if (table[col].ToString() != "")
-                        {
-                            ideals[i - 1] = table[col].ToString();
-                        }
-                        else
-                        {
-                            break;      //빈 column까지 읽으면 탈출
-                        }
-                    }
-                }*/
-
                 if (reader.Read())
                 {
                     string[] mIdeals = (reader["ideal_id"].ToString()).Split('_');
@@ -199,7 +181,7 @@ namespace KW_Project
             {
                 case 3:
                     //채팅 신청버튼 클릭
-                    btn_Chat(intRow, intCol);
+                    btn_Chat(intRow);
                     break;
                 case 4:
                     //삭제 버튼 클릭
@@ -267,11 +249,11 @@ namespace KW_Project
             }
             connection.Close();
         }
-        private void btn_Chat(int intRow, int intCol)
+        private void btn_Chat(int intRow)
         {
-            ChatServerForm chat = new ChatServerForm(dataGridView1.Rows[intRow].Cells[0].Value.ToString()) ;
+            ChatServerForm chat = new ChatServerForm();
             chat.Show();
         }
-
+        
     }
 }

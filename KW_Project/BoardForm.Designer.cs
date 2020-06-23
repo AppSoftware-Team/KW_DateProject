@@ -121,6 +121,8 @@
             this.Name = "BoardForm";
             this.Text = "게시판";
             this.Load += new System.EventHandler(this.BoardForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.form_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.form_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

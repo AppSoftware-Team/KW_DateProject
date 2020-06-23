@@ -20,6 +20,7 @@ namespace KW_Project
         private string currentUserId = null;
         private string currentUserGender = null;
         public string filepath = null;
+        private Point mousePoint;
 
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
 
@@ -49,13 +50,27 @@ namespace KW_Project
                                              , int nWidthEllipse
                                              , int nHeightEllipse);
 
-       
+   
 
         private void btnBoardShare_Load(object sender, EventArgs e)
         {
             //테두리 둥글게
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 20, 20));
         }
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+
         //뒤로가기
         private void Button1_Click(object sender, EventArgs e)
         {

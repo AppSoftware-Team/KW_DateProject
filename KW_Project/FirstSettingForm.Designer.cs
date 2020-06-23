@@ -501,6 +501,8 @@
             this.Name = "FirstSettingForm";
             this.Text = "FirstSettingForm";
             this.Load += new System.EventHandler(this.FirstSettingForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.form_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.form_MouseMove);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
