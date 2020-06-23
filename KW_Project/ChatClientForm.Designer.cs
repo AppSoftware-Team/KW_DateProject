@@ -28,21 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txt_display = new System.Windows.Forms.TextBox();
+            this.txt_all = new System.Windows.Forms.TextBox();
             this.txt_send = new System.Windows.Forms.TextBox();
             this.btn_send = new System.Windows.Forms.Button();
-            this.btn_connect = new System.Windows.Forms.Button();
-            this.txt_name = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // txt_display
+            // txt_all
             // 
-            this.txt_display.Location = new System.Drawing.Point(12, 12);
-            this.txt_display.Multiline = true;
-            this.txt_display.Name = "txt_display";
-            this.txt_display.Size = new System.Drawing.Size(361, 436);
-            this.txt_display.TabIndex = 0;
+            this.txt_all.Location = new System.Drawing.Point(12, 12);
+            this.txt_all.Multiline = true;
+            this.txt_all.Name = "txt_all";
+            this.txt_all.Size = new System.Drawing.Size(361, 436);
+            this.txt_all.TabIndex = 0;
             // 
             // txt_send
             // 
@@ -63,46 +60,18 @@
             this.btn_send.Click += new System.EventHandler(this.btn_send_Click);
             this.btn_send.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_send_KeyDown);
             // 
-            // btn_connect
-            // 
-            this.btn_connect.Location = new System.Drawing.Point(68, 457);
-            this.btn_connect.Name = "btn_connect";
-            this.btn_connect.Size = new System.Drawing.Size(75, 23);
-            this.btn_connect.TabIndex = 3;
-            this.btn_connect.Text = "서버연결";
-            this.btn_connect.UseVisualStyleBackColor = true;
-            this.btn_connect.Click += new System.EventHandler(this.btn_connect_Click);
-            // 
-            // txt_name
-            // 
-            this.txt_name.Location = new System.Drawing.Point(244, 455);
-            this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(100, 25);
-            this.txt_name.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(181, 461);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 15);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "name";
-            // 
             // ChatClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(385, 647);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txt_name);
-            this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.btn_send);
             this.Controls.Add(this.txt_send);
-            this.Controls.Add(this.txt_display);
+            this.Controls.Add(this.txt_all);
             this.Name = "ChatClientForm";
-            this.Text = "Form1";
+            this.Text = "ChatClientForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChatClientForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,11 +79,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txt_display;
+        private System.Windows.Forms.TextBox txt_all;
         private System.Windows.Forms.TextBox txt_send;
         private System.Windows.Forms.Button btn_send;
-        private System.Windows.Forms.Button btn_connect;
-        private System.Windows.Forms.TextBox txt_name;
-        private System.Windows.Forms.Label label1;
     }
 }

@@ -268,5 +268,17 @@ namespace KW_Project
             }
             connection.Close();
         }
+
+        private void btnStartChat_Click(object sender, EventArgs e)
+        {
+            ChatServerForms chat = new ChatServerForms();
+            chat.Show();
+        }
+
+        private void btnReceiveChat_Click(object sender, EventArgs e)
+        {
+            ChatClientForm chat = new ChatClientForm(this);
+            chat.Show();
+        }
     }
 }

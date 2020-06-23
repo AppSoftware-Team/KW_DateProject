@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dgvNameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvAgeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,6 +36,8 @@
             this.dgvDhatCol = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgvDelCol = new System.Windows.Forms.DataGridViewButtonColumn();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnReceiveChat = new System.Windows.Forms.Button();
+            this.btnStartChat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,14 +48,14 @@
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgvNameCol,
@@ -62,14 +64,14 @@
             this.dgvDhatCol,
             this.dgvDelCol});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 27);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 81);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 4;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(506, 423);
+            this.dataGridView1.Size = new System.Drawing.Size(569, 529);
             this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // dgvNameCol
             // 
@@ -118,20 +120,43 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(0);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(506, 21);
+            this.textBox1.Size = new System.Drawing.Size(569, 25);
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = "이상형을 최대 10명까지 저장할 수 있습니다";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnReceiveChat
+            // 
+            this.btnReceiveChat.Location = new System.Drawing.Point(281, 38);
+            this.btnReceiveChat.Name = "btnReceiveChat";
+            this.btnReceiveChat.Size = new System.Drawing.Size(127, 23);
+            this.btnReceiveChat.TabIndex = 5;
+            this.btnReceiveChat.Text = "받은 채팅신청";
+            this.btnReceiveChat.UseVisualStyleBackColor = true;
+            this.btnReceiveChat.Click += new System.EventHandler(this.btnReceiveChat_Click);
+            // 
+            // btnStartChat
+            // 
+            this.btnStartChat.Location = new System.Drawing.Point(434, 38);
+            this.btnStartChat.Name = "btnStartChat";
+            this.btnStartChat.Size = new System.Drawing.Size(123, 23);
+            this.btnStartChat.TabIndex = 6;
+            this.btnStartChat.Text = "채팅 신청하기";
+            this.btnStartChat.UseVisualStyleBackColor = true;
+            this.btnStartChat.Click += new System.EventHandler(this.btnStartChat_Click);
+            // 
             // IdealListForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 450);
+            this.ClientSize = new System.Drawing.Size(569, 610);
+            this.Controls.Add(this.btnStartChat);
+            this.Controls.Add(this.btnReceiveChat);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.dataGridView1);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "IdealListForm";
-            this.Text = "이상형 리스트";
+            this.Text = "IdealList";
             this.Load += new System.EventHandler(this.IdealListForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -148,5 +173,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvDptCol;
         private System.Windows.Forms.DataGridViewButtonColumn dgvDhatCol;
         private System.Windows.Forms.DataGridViewButtonColumn dgvDelCol;
+        private System.Windows.Forms.Button btnReceiveChat;
+        private System.Windows.Forms.Button btnStartChat;
     }
 }
