@@ -44,8 +44,8 @@ namespace KW_Project
         {
             Thread.Sleep(5550);
             this.DialogResult = DialogResult.Cancel;
-           // formClose();
-           // this.Invoke(new Action(delegate() { formClose(); }));
+            formClose();
+          //  this.Invoke(new TestDelegate_Close(formClose));
         }
     }
 }

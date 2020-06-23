@@ -19,8 +19,7 @@ namespace KW_Project
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
         private string currentUserId;
         private string currentUserGender;
-        private List<string> myIdealList = new List<string>();
-       
+        private string[] myIdealList;
 
 
         public IdealListForm(string myId, string myGender)
@@ -57,11 +56,11 @@ namespace KW_Project
 
             SetData(); // 불러온 ID로 리스트 만들기
         }
-
+        
         private void SetData()
         {
 
-            for (int i = 0; i < myIdealList.Count; i++)
+            for (int i = 0; i < myIdealList.Length-1; i++)
             { 
                 object[] dr = new object[6];
                 byte[] Image = null;
@@ -109,28 +108,20 @@ namespace KW_Project
                         // 채팅 버튼
                         dr[3] = new Button();
                         dr[4] = new Button();
-                        //((Button)dr[3]).MouseClick += btnChat_Click;
-                        //((Button)dr[4]).MouseClick += btnDel_Click;
+                        ((Button)dr[3]).MouseDown += btnChat_Click;
+                        ((Button)dr[4]).MouseClick += btnDel_Click;
                     }
                      
                     table2.Close();
                     connection.Close();
 
-                    try
-                    {
-                        dataGridView1.Rows.Add(dr[0], dr[1], dr[2], dr[3], dr[4], new Bitmap(new MemoryStream(Image)));
-                    }
-                    catch { }
+                    
+                    dataGridView1.Rows.Add(dr[0], dr[1], dr[2], dr[3], dr[4], new Bitmap(new MemoryStream(Image)));
 
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.ToString());
-                }
-                foreach(DataGridViewRow obj in dataGridView1.Rows)
-                {
-                    obj.Cells[3].Value = "채팅";
-                    obj.Cells[4].Value = "삭제";
                 }
             }
         }
@@ -171,12 +162,9 @@ namespace KW_Project
 
                 if (reader.Read())
                 {
-                    string[] mIdeals = (reader["ideal_id"].ToString()).Split('_');
+                    string mIdeals = reader["ideal_id"].ToString();
                     // 이상형 ID들 저장
-                    for (int i = 0; i < mIdeals.Length - 1; i++)
-                    {
-                        myIdealList.Add(mIdeals[i]);
-                    }
+                    myIdealList = mIdeals.Split('_');
                 }
 
                 reader.Close();
@@ -188,85 +176,16 @@ namespace KW_Project
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnChat_Click(object sender, EventArgs e)
         {
-            DataGridView grid = (DataGridView)sender;
-            int intRow = e.RowIndex;
-            int intCol = e.ColumnIndex;
-
-            Type typeObject = grid.Rows[intRow].Cells[intCol].GetType();
-            switch (intCol)
-            {
-                case 3:
-                    //채팅 신청버튼 클릭
-                    MessageBox.Show("채팅신청!");
-                    break;
-                case 4:
-                    //삭제 버튼 클릭
-                    MessageBox.Show("삭제!");
-                    btn_Del(intRow);
-                    break;
-            }
+            // MessageBox.Show(((Button)sender).Controls.ToString());
+           /* ChatServerForms chat = new ChatServerForms();
+            chat.Show();*/
         }
-        private void btn_Del(int intRow)
+
+        private void btnDel_Click(object sender, EventArgs e)
         {
-            string readQuery = "";
-            string insertQuery = "";
-            string old = string.Empty;
-
-            MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
-            MySqlCommand command = new MySqlCommand();
-            MySqlDataReader reader;
-
-            // selected_ideal 초기화
-            if (currentUserGender == "남자")
-                readQuery = "SELECT ideal_id from user_data_m where id=@curId";
-            else if (currentUserGender == "여자")
-                readQuery = "SELECT ideal_id from user_data_f where id=@curId";
-
-            connection.Open();
-
-            command = new MySqlCommand(readQuery, connection);
-            command.Parameters.AddWithValue("@curID", currentUserId);
-            reader = command.ExecuteReader();
-
-            if (reader.Read())
-            {
-                old = reader["ideal_id"].ToString();
-                string del_id = myIdealList[intRow];
-
-                old.Replace(del_id + "_", "");
-                myIdealList.Remove(del_id);
-            }
-            reader.Close();
-            connection.Close();
-            dataGridView1.Rows.Remove(dataGridView1.Rows[intRow]);
-
-            string new_ideals = string.Empty;
-            for (int i = 0 ; i < myIdealList.Count ; i++){
-                new_ideals += myIdealList[i] + "_";
-            }
-            // ideal_id 다시 저장
-            if (currentUserGender == "남자")
-                insertQuery = "UPDATE user_data_m SET ideal_id=@ideal_id WHERE id=@curID;";
-            else if (currentUserGender == "여자")
-                insertQuery = "UPDATE user_data_f SET ideal_id=@ideal_id WHERE id=@curID;";
-
-            connection.Open();
-
-            command = new MySqlCommand(insertQuery, connection);
-            try
-            {
-                command.Parameters.AddWithValue("@curID", currentUserId);
-                command.Parameters.AddWithValue("@ideal_id", new_ideals);
-
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            connection.Close();
+            MessageBox.Show("Hi!");
         }
 
         private void btnStartChat_Click(object sender, EventArgs e)

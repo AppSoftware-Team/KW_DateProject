@@ -141,9 +141,6 @@
     <EmbeddedResource Include="ChatClientForm.resx">
       <DependentUpon>ChatClientForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChatServerForm.resx">
-      <DependentUpon>ChatServerForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FirstSettingForm.resx">
       <DependentUpon>FirstSettingForm.cs</DependentUpon>
     </EmbeddedResource>

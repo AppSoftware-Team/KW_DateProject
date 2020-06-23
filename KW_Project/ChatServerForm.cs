@@ -35,10 +35,6 @@ namespace KW_Project
             InitializeComponent();
         }
 
-
-
-
-
         private void ChatServerForms_Load(object sender, EventArgs e)
         {
             server_thread = new Thread(new ThreadStart(ServerStart)); //채팅방 입장 동시에 서버 생성.
