@@ -23,7 +23,7 @@ namespace KW_Project
         public StreamWriter writer;
         const int PORT = 2002;
         private Thread read_thread;
-        private string id;
+        private string ID;
         private Point mousePoint;
 
         public bool is_connect = false;
@@ -45,10 +45,11 @@ namespace KW_Project
         //}
 
 
-        public ChatClientForm(GotChat form) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
+        public ChatClientForm(GotChat form, string id) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
         {
             InitializeComponent();
             ideal_form = form;
+            ID = id;
 
             Connect();
         }
@@ -134,7 +135,7 @@ namespace KW_Project
                 return;
             }
             is_connect = true;
-            MessageBox.Show("서버에 연결");
+            //MessageBox.Show("서버에 연결");
 
 
             net_stream = m_Client.GetStream();
@@ -155,7 +156,7 @@ namespace KW_Project
                     string szMessage = reader.ReadLine();
 
                     if (szMessage != null)
-                        Message("상대방 >>> : " + szMessage);
+                        Message(ID + " : " + szMessage);
                 }
             }
             catch
@@ -172,7 +173,7 @@ namespace KW_Project
                 writer.WriteLine(txt_send.Text);
                 writer.Flush();
 
-                Message(">>> : " + txt_send.Text);
+                Message("당신 : " + txt_send.Text);
                 txt_send.Text = "";
             }
             catch

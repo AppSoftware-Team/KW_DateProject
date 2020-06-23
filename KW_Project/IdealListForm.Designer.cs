@@ -131,7 +131,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "IdealListForm";
-            this.Text = "r";
+            this.Text = "이상형 리스트";
             this.Load += new System.EventHandler(this.IdealListForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
