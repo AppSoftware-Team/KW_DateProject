@@ -403,7 +403,7 @@ namespace KW_Project
                     tempIdealList = reader["ideal_id"].ToString(); // 일시적으로 저장
                     if (tempIdealList.Contains(idealId + "_")) // 좋아요 중복
                     {
-                        MessageBox.Show("이미 '좋아요'를 눌렀습니다.");
+                        MessageBox.Show("이미 '좋아요' 를 눌렀습니다.");
 
                         foreach (var key in idealList.Keys.ToList())
                         {

@@ -146,7 +146,6 @@ namespace KW_Project
 
                 if (command.ExecuteNonQuery() == 1)
                 {
-                    MessageBox.Show("정상 전송"); // 나중에 지움
                 }
                 else
                 {

@@ -119,7 +119,6 @@ namespace KW_Project
                 {
                     if (command.ExecuteNonQuery() == 1)
                     {
-                        MessageBox.Show("저장 완료!");
                     }
                     else
                     {
