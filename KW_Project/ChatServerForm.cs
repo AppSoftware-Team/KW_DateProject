@@ -21,7 +21,7 @@ namespace KW_Project
         public StreamWriter writer;
         const int PORT = 2002;
         private Thread read_thread;
-        private string id;
+        private string ID;
         private Point mousePoint;
 
         public bool is_stop = false;
@@ -32,9 +32,10 @@ namespace KW_Project
         private const int CS_DROPSHADOW = 0x00020000;
 
 
-        public ChatServerForm()
+        public ChatServerForm(string id)
         {
             InitializeComponent();
+            ID = id;
         }
         protected override CreateParams CreateParams
         {
@@ -100,7 +101,7 @@ namespace KW_Project
                 listener.Start();
 
                 is_stop = true;
-                Message("상대방에게 채팅을 요청했습니다!");
+                Message("이상형에게 채팅을 요청했습니다!");
 
 
                 while (is_stop)
@@ -110,7 +111,7 @@ namespace KW_Project
                     if (hClient.Connected)
                     {
                         is_connect = true;
-                        Message("상대방이 입장했습니다!");
+                        Message("이상형이 입장했습니다!");
 
                         net_stream = hClient.GetStream();
                         reader = new StreamReader(net_stream);
@@ -159,7 +160,7 @@ namespace KW_Project
                     string szMessage = reader.ReadLine();
 
                     if (szMessage != null)
-                        Message("상대방  : " + szMessage);
+                        Message(ID + " : " + szMessage);
                 }
             }
             catch

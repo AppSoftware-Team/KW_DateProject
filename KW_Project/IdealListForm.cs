@@ -251,7 +251,7 @@ namespace KW_Project
         }
         private void btn_Chat(int intRow)
         {
-            ChatServerForm chat = new ChatServerForm();
+            ChatServerForm chat = new ChatServerForm(dataGridView1.Rows[intRow].Cells[0].Value.ToString());
             chat.Show();
         }
         

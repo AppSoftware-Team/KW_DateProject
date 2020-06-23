@@ -179,7 +179,7 @@ namespace KW_Project
             {
                 case 3:
                     //채팅 신청버튼 클릭
-                    btn_Chat(intRow, intCol);
+                    btn_Chat(intRow);
                     break;
                 case 4:
                     //삭제 버튼 클릭
@@ -248,7 +248,7 @@ namespace KW_Project
             }
             connection.Close();
         }
-        private void btn_Chat(int intRow ,int intCol)
+        private void btn_Chat(int intRow)
         {
             ChatClientForm chat = new ChatClientForm(this, dataGridView1.Rows[intRow].Cells[0].Value.ToString());
             chat.Show();
