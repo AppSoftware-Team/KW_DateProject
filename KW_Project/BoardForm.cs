@@ -80,7 +80,7 @@ namespace KW_Project
             if (currentUserGender == "남자")
                   query.CommandText = "SELECT file from board_data_f";
             else if (currentUserGender == "여자") 
-                   query.CommandText = "SELECT file from board_data_m ";
+                   query.CommandText = "SELECT file from board_data_f ";
 
             Bitmap[] row = new Bitmap[3];
             try
