@@ -121,6 +121,10 @@ namespace KW_Project
                     }
                 }
             }
+            catch (NullReferenceException)
+            {
+
+            }
             catch
             {
                 Message("시작 도중에 오류 발생");

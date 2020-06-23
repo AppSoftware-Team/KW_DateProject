@@ -15,6 +15,7 @@ namespace KW_Project
     public partial class LoadingForm : Form
     {
         private const int CS_DROPSHADOW = 0x00020000;
+        private Point mousePoint;
 
         delegate void TestDelegate_Close();
         public LoadingForm()
@@ -44,6 +45,20 @@ namespace KW_Project
                 CreateParams cp = base.CreateParams;
                 cp.ClassStyle |= CS_DROPSHADOW;
                 return cp;
+            }
+        }
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
             }
         }
 

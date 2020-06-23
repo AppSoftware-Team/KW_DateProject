@@ -53,6 +53,8 @@
             this.Name = "LoadingForm";
             this.Text = "LoadingForm";
             this.Load += new System.EventHandler(this.LoadingForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.form_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.form_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
