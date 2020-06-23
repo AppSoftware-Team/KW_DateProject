@@ -409,7 +409,7 @@ namespace KW_Project
 
                         reader.Close();
                         connection.Close();
-
+                        AddToIdeal();
                         return;
                     }
                 }
@@ -498,7 +498,70 @@ namespace KW_Project
             idealList.ShowDialog();
         }
 
-       
+        private void btn_GotChat_Click(object sender, EventArgs e)
+        {
+            GotChat gotChatList = new GotChat(currentUserId, currentUserGender);
+            gotChatList.ShowDialog();
+        }
+        private void AddToIdeal()
+        {
+            MySqlDataReader reader;
+            MySqlCommand command;
+            string insertQuery = null;
+            string ReadQuery = null;
+            string old_got_chat = string.Empty;
+
+            if (currentUserGender == "남자")
+                ReadQuery = "SELECT ideal_id from user_data_m where id=@curId";
+            else if (currentUserGender == "여자")
+                ReadQuery = "SELECT ideal_id from user_data_f where id=@curId";
+
+            connection.Open();
+
+            command = new MySqlCommand(ReadQuery, connection);
+            command.Parameters.AddWithValue("@curID", currentUserId);
+            reader = command.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    old_got_chat = reader["ideal_id"].ToString(); // 일시적으로 저장
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            reader.Close();
+            connection.Close();
+
+            // ideal_id 다시 저장
+            if (currentUserGender == "남자")
+                insertQuery = "UPDATE user_data_m SET got_chat_id=@cur_id WHERE id=@ideal_ID;";
+            else if (currentUserGender == "여자")
+                insertQuery = "UPDATE user_data_f SET got_chat_id=@cur_id WHERE id=@ideal_ID;";
+
+            connection.Open();
+
+            command = new MySqlCommand(insertQuery, connection);
+            try
+            {
+                command.Parameters.AddWithValue("@curID", currentUserId);
+                command.Parameters.AddWithValue("@ideal_id", old_got_chat + idealId + "_");
+
+                if (command.ExecuteNonQuery() == 1)
+                {
+                    MessageBox.Show("'좋아요'"); // 나중에 지움
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            connection.Close();
+        }
     }
 
 }

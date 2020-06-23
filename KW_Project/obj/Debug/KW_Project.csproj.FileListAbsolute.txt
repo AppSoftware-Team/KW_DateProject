@@ -178,3 +178,5 @@ C:\Users\pc\Downloads\KW_DateProject_CShap-master\KW_DateProject_CShap-master\KW
 C:\Users\pc\Downloads\KW_DateProject_CShap-master\KW_DateProject_CShap-master\KW_Project\obj\Debug\KW_Project.pdb
 C:\Users\mario\Documents\GitHub\KW_DateProject_Main_Cpp\KW_Project\obj\Debug\KW_Project.IdealListForm.resources
 C:\Users\jiwon\Documents\GitHub\KW_DateProject_Cpp\KW_Project\obj\Debug\KW_Project.IdealListForm.resources
+C:\Users\jiwon\Documents\GitHub\KW_DateProject_Cpp\KW_Project\obj\Debug\KW_Project.ChatServerForm.resources
+C:\Users\jiwon\Documents\GitHub\KW_DateProject_Cpp\KW_Project\obj\Debug\KW_Project.GotChat.resources

@@ -199,11 +199,10 @@ namespace KW_Project
             {
                 case 3:
                     //채팅 신청버튼 클릭
-                    MessageBox.Show("채팅신청!");
+                    btn_Chat(intRow);
                     break;
                 case 4:
                     //삭제 버튼 클릭
-                    MessageBox.Show("삭제!");
                     btn_Del(intRow);
                     break;
             }
@@ -268,5 +267,17 @@ namespace KW_Project
             }
             connection.Close();
         }
+        private void btn_Chat(int intRow)
+        {
+            ChatServerForm chat = new ChatServerForm();
+            chat.Show();
+        }
+        /*          이걸 got_chat_id에 넣어줘야함
+         private void btnReceiveChat_Click(object sender, EventArgs e)
+        {
+            ChatClientForm chat = new ChatClientForm(this);
+            chat.Show();
+        }
+         */
     }
 }

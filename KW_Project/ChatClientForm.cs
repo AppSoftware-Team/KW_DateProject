@@ -7,94 +7,173 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-using System.Diagnostics;
-using System.Net;
 
 namespace KW_Project
 {
     public partial class ChatClientForm : Form
     {
-        TcpClient clientSocket = new TcpClient();
-        NetworkStream stream = default(NetworkStream);
-        string message = string.Empty;
-        private int PORT = 7777;
-        
+        public NetworkStream net_stream;
+        public StreamReader reader;
+        public StreamWriter writer;
+        const int PORT = 2002;
+        private Thread read_thread;
+        private string id;
+
+        public bool is_connect = false;
+        TcpClient m_Client;
+
+        IdealListForm ideal_form;
+        //loginForm form;
         public ChatClientForm()
         {
             InitializeComponent();
         }
 
+        //public void setID(string id)
+        //{
+        //    this.id = id;
+        //}
+
+        public ChatClientForm(IdealListForm form) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
+        {
+            InitializeComponent();
+            ideal_form = form;
+        }
+
+        //public ChatClientForm(loginForm form)
+        //{
+        //    InitializeComponent();
+        //    this.form = form;
+        //}
+
+        private void ChatClientForm_FormClosing(object sender, FormClosedEventArgs e)
+        {
+
+            Disconnect();
+        }
+
+        //private void btnExit_Click(object sender, System.EventArgs e)
+        //{
+        //    this.Close();
+        //}
+
         public void Message(string msg)
         {
             this.Invoke(new MethodInvoker(delegate ()
             {
-                txt_display.AppendText(msg + "\r\n");
-                txt_display.Focus();
-                txt_display.ScrollToCaret();
+                r.AppendText(msg + "\r\n");
+                r.Focus();
+                r.ScrollToCaret();
                 txt_send.Focus();
             }));
         }
 
-        private void btn_send_Click(object sender, EventArgs e) //메세지 보내기
+        public void Disconnect()
         {
-            byte[] buffer = Encoding.Unicode.GetBytes(txt_send.Text + "$");
-            stream.Write(buffer, 0, buffer.Length);
-            stream.Flush();
-            txt_send.Text = "";
+            if (!is_connect)
+                return;
+
+            is_connect = false;
+
+            reader.Close();
+            writer.Close();
+
+            net_stream.Close();
+            read_thread.Abort();
+
+            Message("상대방과 연결 중단");
         }
 
-        private void btn_connect_Click(object sender, EventArgs e)
+        public void Connect()
         {
-            if(btn_connect.Text == "서버연결")
+            m_Client = new TcpClient();
+
+            try
             {
-                //ChatServerForm chatServer = new ChatServerForm();
-                //int PORT = chatServer.getPORT();
-                //MessageBox.Show(PORT.ToString());
-
-                clientSocket.Connect(IPAddress.Parse("127.0.0.1"), PORT);
-                stream = clientSocket.GetStream();
-
-                Message("상대방의 채팅방 입장 대기중");
-
-                byte[] buffer = Encoding.Unicode.GetBytes(txt_name.Text + "$"); // 이름정보를 서버에 전송.
-                stream.Write(buffer, 0, buffer.Length);
-                stream.Flush();
-
-                Thread m_thread = new Thread(GetMessage);
-                m_thread.IsBackground = true;
-                m_thread.Start();
-
-                btn_connect.Text = "연결 끊기";
-
+                m_Client.Connect("127.0.0.1", PORT);
             }
-
-            else
+            catch
             {
-                Message("채팅방을 나갑니다.");
-                //채팅방을 나간것을 서버에 알림.
-                byte[] buffer = Encoding.Unicode.GetBytes("채팅방을 나갑니다.$");
-                stream.Write(buffer, 0, buffer.Length);
-                stream.Flush();
-                btn_connect.Text = "서버 연결";
+                is_connect = false;
+                return;
+            }
+            is_connect = true;
+            MessageBox.Show("서버에 연결");
 
-                clientSocket.Close();
+
+            net_stream = m_Client.GetStream();
+
+            reader = new StreamReader(net_stream);
+            writer = new StreamWriter(net_stream);
+
+            read_thread = new Thread(new ThreadStart(Receive));
+            read_thread.Start();
+        }
+
+        public void Receive()
+        {
+            try
+            {
+                while (is_connect)
+                {
+                    string szMessage = reader.ReadLine();
+
+                    if (szMessage != null)
+                        Message("상대방 >>> : " + szMessage);
+                }
+            }
+            catch
+            {
+                Message("데이터를 읽는 과정에서 오류가 발생");
+            }
+            Disconnect();
+        }
+
+        void Send()
+        {
+            try
+            {
+                writer.WriteLine(txt_send.Text);
+                writer.Flush();
+
+                Message(">>> : " + txt_send.Text);
+                txt_send.Text = "";
+            }
+            catch
+            {
+                Message("데이터 전송 실패");
             }
         }
 
-        private void GetMessage() //메시지를 받아와서 읽기.
-        {
-            while(true)
-            {
-                stream = clientSocket.GetStream();
-                int buffer_size = clientSocket.ReceiveBufferSize;
-                byte[] buffer = new byte[buffer_size];
-                int bytes = stream.Read(buffer, 0, buffer.Length);
+        //private void btnConnect_Click(object sender, EventArgs e)
+        //{
+        //    while (btnConnect.Text == "서버 연결")
+        //    {
+        //        if (btnConnect.Text == "서버 연결")
+        //        {
+        //            Connect();
+        //            if (m_bConnect)
+        //            {
+        //                btnConnect.Text = "연결 끊기";
+        //                btnConnect.ForeColor = Color.Red;
+        //            }
 
-                string message = Encoding.Unicode.GetString(buffer, 0, bytes);
-                Message(message);
-            }
+        //        }
+        //        else
+        //        {
+        //            Disconnect();
+        //            btnConnect.Text = "서버 연결";
+        //            btnConnect.ForeColor = Color.Black;
+        //        }
+        //    }
+        //}
+
+        private void btn_send_Click(object sender, EventArgs e)
+        {
+            Send();
         }
 
         private void txt_send_KeyDown(object sender, KeyEventArgs e)
