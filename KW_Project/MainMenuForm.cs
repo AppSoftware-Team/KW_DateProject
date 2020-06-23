@@ -25,7 +25,7 @@ namespace KW_Project
         private Dictionary<int, int> idealCount = new Dictionary<int, int>(); 
         private Dictionary<int,int> selected_ideal = new Dictionary<int,int>();   //좋아요 or 싫어요 누른 이성 key, 싫어요:0, 좋아요:1 저장
         private MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
-
+        private Point mousePoint;
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(int nLeftRect
                                                     , int nTopRect
@@ -45,6 +45,21 @@ namespace KW_Project
             lblProfile2.Parent = idealPic;
 
         }
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+ 
 
         private void MainMenuForm_Load(object sender, EventArgs e)
         {

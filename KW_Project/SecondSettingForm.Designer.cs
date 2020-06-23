@@ -358,7 +358,7 @@
             this.button16.Text = "유머러스한";
             this.button16.UseVisualStyleBackColor = false;
             // 
-            // SecondSetting
+            // SecondSettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -372,9 +372,11 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "SecondSetting";
+            this.Name = "SecondSettingForm";
             this.Text = "SecondSetting";
             this.Load += new System.EventHandler(this.SecondSetting_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.form_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.form_MouseMove);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -20,6 +20,7 @@ namespace KW_Project
         private int genderFlag;
         public string filepath = null;// 받아온 파일 경로
         private const int CS_DROPSHADOW = 0x00020000;
+        private Point mousePoint;
 
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
 
@@ -58,6 +59,21 @@ namespace KW_Project
                 return cp;
             }
         }
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

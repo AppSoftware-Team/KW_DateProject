@@ -20,7 +20,8 @@ namespace KW_Project
     {
         private string currentUserId;
         private string currentUserGender;
-        
+        private Point mousePoint;
+
         private const int CS_DROPSHADOW = 0x00020000;
 
         MySqlConnection connection = new MySqlConnection("Server=localhost;Database=project_data;Uid=root;Pwd=1234");
@@ -72,7 +73,21 @@ namespace KW_Project
                 return cp;
             }
         }
-   
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+
         private void connectData()
         {
             MySqlCommand query = connection.CreateCommand();

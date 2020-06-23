@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace KW_Project
 {
@@ -21,11 +24,15 @@ namespace KW_Project
         const int PORT = 2002;
         private Thread read_thread;
         private string id;
+        private Point mousePoint;
 
         public bool is_connect = false;
         TcpClient m_Client;
 
         GotChat ideal_form;
+
+        private const int CS_DROPSHADOW = 0x00020000;
+
         //loginForm form;
         public ChatClientForm()
         {
@@ -37,6 +44,7 @@ namespace KW_Project
         //    this.id = id;
         //}
 
+
         public ChatClientForm(GotChat form) //이상형리스트에서 채팅 클라이언트의 소스를 쓰기위해 정의.
         {
             InitializeComponent();
@@ -44,7 +52,15 @@ namespace KW_Project
 
             Connect();
         }
-
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= CS_DROPSHADOW;
+                return cp;
+            }
+        }
         //public ChatClientForm(loginForm form)
         //{
         //    InitializeComponent();
@@ -61,6 +77,21 @@ namespace KW_Project
         //{
         //    this.Close();
         //}
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+
 
         public void Message(string msg)
         {
@@ -182,6 +213,12 @@ namespace KW_Project
         {
             if (e.KeyCode == Keys.Enter)
                 btn_send_Click(this, e);
+        }
+
+        private void btn_exit_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+            this.Close();
         }
     }
 }

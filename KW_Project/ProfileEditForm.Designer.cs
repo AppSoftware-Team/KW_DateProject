@@ -160,6 +160,8 @@
             this.Name = "ProfileEditForm";
             this.Text = "ProfileEditForm";
             this.Load += new System.EventHandler(this.ProfileEditForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.form_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.form_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.profilePic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

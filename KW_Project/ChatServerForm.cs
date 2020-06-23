@@ -22,19 +22,29 @@ namespace KW_Project
         const int PORT = 2002;
         private Thread read_thread;
         private string id;
+        private Point mousePoint;
 
         public bool is_stop = false;
         private TcpListener listener;
         private Thread server_thread;
 
         public bool is_connect = false;
+        private const int CS_DROPSHADOW = 0x00020000;
 
 
         public ChatServerForm()
         {
             InitializeComponent();
         }
-
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= CS_DROPSHADOW;
+                return cp;
+            }
+        }
         private void ChatServerForms_Load(object sender, EventArgs e)
         {
             server_thread = new Thread(new ThreadStart(ServerStart)); //채팅방 입장 동시에 서버 생성.
@@ -55,6 +65,21 @@ namespace KW_Project
         //{
         //    this.Close();
         //}
+
+        private void form_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void form_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                Location = new Point(this.Left - (mousePoint.X - e.X),
+                    this.Top - (mousePoint.Y - e.Y));
+            }
+        }
+
 
         public void Message(string msg)
         {
@@ -199,6 +224,13 @@ namespace KW_Project
             read_thread.Abort();
 
             Message("상대방과 연결 중단");
+        }
+
+        private void btn_exit_Click(object sender, EventArgs e)
+        {
+            ServerStop();
+            Disconnect();
+            this.Close();
         }
     }
 }
