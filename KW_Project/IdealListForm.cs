@@ -199,7 +199,7 @@ namespace KW_Project
             {
                 case 3:
                     //채팅 신청버튼 클릭
-                    btn_Chat(intRow);
+                    btn_Chat(intRow, intCol);
                     break;
                 case 4:
                     //삭제 버튼 클릭
@@ -267,17 +267,11 @@ namespace KW_Project
             }
             connection.Close();
         }
-        private void btn_Chat(int intRow)
+        private void btn_Chat(int intRow, int intCol)
         {
-            ChatServerForm chat = new ChatServerForm();
+            ChatServerForm chat = new ChatServerForm(dataGridView1.Rows[intRow].Cells[0].Value.ToString()) ;
             chat.Show();
         }
-        /*          이걸 got_chat_id에 넣어줘야함
-         private void btnReceiveChat_Click(object sender, EventArgs e)
-        {
-            ChatClientForm chat = new ChatClientForm(this);
-            chat.Show();
-        }
-         */
+
     }
 }

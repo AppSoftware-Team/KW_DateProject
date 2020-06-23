@@ -21,7 +21,7 @@ namespace KW_Project
         public StreamWriter writer;
         const int PORT = 2002;
         private Thread read_thread;
-        private string id;
+        private string ID;
 
         public bool is_stop = false;
         private TcpListener listener;
@@ -30,9 +30,10 @@ namespace KW_Project
         public bool is_connect = false;
 
 
-        public ChatServerForm()
+        public ChatServerForm(string id)
         {
             InitializeComponent();
+            ID = id;
         }
 
         private void ChatServerForms_Load(object sender, EventArgs e)
@@ -130,7 +131,7 @@ namespace KW_Project
                     string szMessage = reader.ReadLine();
 
                     if (szMessage != null)
-                        Message("상대방  : " + szMessage);
+                        Message(ID + " : " + szMessage);
                 }
             }
             catch
