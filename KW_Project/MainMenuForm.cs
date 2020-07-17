@@ -67,7 +67,8 @@ namespace KW_Project
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, this.Width, this.Height, 25, 25));
 
             // 매칭 알고리즘
-            MatchingAlortithmSetting(); // DB에 있는 이성의 데이터 모두 로컬로 가져오는 용도
+            MatchingAlortithmSetting(); 
+            // DB에 있는 이성의 데이터 모두 로컬로 가져오는 용도
 
             if (currentUserGender == "남자")
                 idealId = MatchingAlgorithm();
@@ -354,6 +355,7 @@ namespace KW_Project
                     }
                 }
             }
+
             if (idealid == 0) {
                 for (int i = 0; i < selected_ideal.Count; i++)
                 {
